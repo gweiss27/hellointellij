@@ -1,0 +1,50 @@
+<project name="HelloIntelliJ" basedir=".">
+
+    <property name="version">1.2.3</property>
+    <property name="dir.src">src/main/java</property>
+    <property name="dir.lib">lib</property>
+    <property name="dir.build">build</property>
+    <property name="dir.build.classes">${dir.build}/classes</property>
+    <property name="dir.build.javadoc">${dir.build}/javadoc</property>
+    <property name="file.jar">${dir.build}/${ant.project.name}-${version}.jar</property>
+
+
+    <path id="projectClasspath">
+        <fileset dir="lib">
+            <include name="**.jar"/>
+        </fileset>
+    </path>
+
+    <target name="clean">
+        <delete dir="${dir.build}"/>
+    </target>
+
+
+    <target name="init" depends="clean">
+        <mkdir dir="${dir.build}"/>
+        <mkdir dir="${dir.build.classes}"/>
+        <mkdir dir="${dir.lib}" />
+    </target>
+
+
+    <target name="compile" depends="init">
+        <echo>Compiling Java source</echo>
+
+        <javac  classpathref="projectClasspath"
+                srcdir="${dir.src}"
+                destdir="${dir.build.classes}" />
+    </target>
+
+    <target name="jar" depends="compile">
+        <echo>Making JAR file</echo>
+
+        <jar basedir="${dir.build.classes}" file="${file.jar}" />
+    </target>
+
+    <target name="javadoc">
+        <echo>Making JavaDoc from source</echo>
+
+        <javadoc sourcepath="${dir.src}" destdir="${dir.build.javadoc}" />
+    </target>
+
+</project>
